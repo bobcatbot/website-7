@@ -3,6 +3,11 @@
 *.pyc
 __pycache__
 
+.cache
+.git
+.upm
+.pythonlibs
+
 # Environments 
 .env 
 .venv 

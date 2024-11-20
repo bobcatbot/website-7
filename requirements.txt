@@ -1,1 +1,9 @@
 Flask==3.0.3
+discord-py
+pymongo
+python-dateutil
+python-dotenv
+pytz
+requests
+stripe
+zenora
