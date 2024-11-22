@@ -10,6 +10,12 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "mysecret"
 
 bot = discord.Client(intents=discord.Intents.all())
+client = APIClient(BOT_TOKEN, client_secret=CLIENT_SECRET)
+
+
+def bearer_client():
+  bearer_client = APIClient(session.get("token"), bearer=True)
+  return bearer_client.users
 
 ## Main web ##
 @app.route("/")
