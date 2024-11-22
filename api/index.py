@@ -10,7 +10,7 @@ app.config["SECRET_KEY"] = "mysecret"
 ## Main web ##
 @app.route("/")
 def index():
-  if "token" not in session:
-    return render_template("index.html", logInWithDiscord=OAUTH_URL)
+  # if "token" not in session:
+  #   return render_template("index.html", logInWithDiscord=OAUTH_URL)
   
   return render_template("index.html", user=None)
