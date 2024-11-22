@@ -23,6 +23,7 @@ def index():
 @bot.event
 async def on_ready():
   print(f'We have logged in as {bot.user}')
-  await bot.get_channel(1110277292124536953).send('Bot on vercel is online')
+  channel = bot.get_channel(1110277292124536953)
+  await channel.send('Bot on vercel is online')
 
 bot.run(BOT_TOKEN)
