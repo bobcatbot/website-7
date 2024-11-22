@@ -1,5 +1,5 @@
 Flask[async]
-discord-py
+py-cord
 pymongo
 python-dateutil
 python-dotenv
