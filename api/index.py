@@ -1,3 +1,5 @@
+import discord
+from zenora import APIClient
 from flask import Flask, redirect, url_for, render_template, request, flash, session, jsonify
 
 from .consts import premium_faqs, premium_types, langs, tz
@@ -7,10 +9,20 @@ app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "mysecret"
 
+bot = discord.Client(intents=discord.Intents.all())
+
 ## Main web ##
 @app.route("/")
 def index():
-  # if "token" not in session:
-  #   return render_template("index.html", logInWithDiscord=OAUTH_URL)
+  if "token" not in session:
+    return render_template("index.html", logInWithDiscord=OAUTH_URL)
   
   return render_template("index.html", user=None)
+
+
+@bot.event
+async def on_ready():
+  print(f'We have logged in as {bot.user}')
+  await bot.get_channel(1110277292124536953).send('Bot on vercel is online')
+
+bot.run(BOT_TOKEN)
