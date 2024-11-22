@@ -1,3 +1,15 @@
+import os
+
+# Check the lock
+lock = os.getenv("BOT_INSTANCE_LOCK", "0")
+if lock == "1":
+    print("Bot is already running. Exiting...")
+    exit()  # Prevent starting a second instance
+
+# Set the lock
+os.environ["BOT_INSTANCE_LOCK"] = "1"
+
+
 import discord
 from zenora import APIClient
 from flask import Flask, redirect, url_for, render_template, request, flash, session, jsonify
