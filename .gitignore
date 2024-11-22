@@ -8,6 +8,8 @@ __pycache__
 .upm
 .pythonlibs
 
+.replit
+
 # Environments 
 .env 
 .venv 
