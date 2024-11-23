@@ -1,0 +1,34 @@
+def level_cardd(ctx):
+    URL = "databases/lvl-cards"
+    theme = v.dashboard(ctx.guild.id, "leveling.card")
+
+    if theme == "blurple-rank.png":
+        styles = {"background": f"{URL}/blurple-rank.png", "bar_bg": "#FFFFFF", "bar_fill": "#5865F2", "bar_indent_left": 30, "bar_width": 650}
+    if theme == "green-rank.png":
+        styles = {"background": f"{URL}/green-rank.png", "bar_bg": "#FFFFFF", "bar_fill": "#57F287", "bar_indent_left": 30, "bar_width": 650}
+    if theme == "yellow-rank.png":
+        styles = {"background": f"{URL}/yellow-rank.png", "bar_bg": "#FFFFFF", "bar_fill": "#FEE75C", "bar_indent_left": 30, "bar_width": 650}
+    if theme == "fuchsia-rank.png":
+        styles = {"background": f"{URL}/fuchsia-rank.png", "bar_bg": "#FFFFFF", "bar_fill": "#EB459E", "bar_indent_left": 30, "bar_width": 650}
+    if theme == "red-rank.png":
+        styles = {"background": f"{URL}/red-rank.png", "bar_bg": "#FFFFFF", "bar_fill": "#ED4245", "bar_indent_left": 30, "bar_width": 650}
+    if theme == "white-rank.png":
+        styles = {"background": f"{URL}/white-rank.png", "bar_bg": "#FFFFFF", "bar_fill": "#8d8e8f", "bar_indent_left": 30, "bar_width": 650}
+    if theme == "black-rank.png":
+        styles = {"background": f"{URL}/black-rank.png", "bar_bg": "#FFFFFF", "bar_fill": "#000000", "bar_indent_left": 30, "bar_width": 650}
+    
+    if theme == "bobcat.png":
+        styles = {"background": f"{URL}/bobcat.png", "bar_bg": "#484B4E", "bar_fill": "#FCEE21", "bar_indent_left": 37, "bar_width": 826}
+    if theme == "bobcat-blob.png":
+        styles = {"background": f"{URL}/bobcat-blob.png", "bar_bg": "#484B4E", "bar_fill": "#FCEE21", "bar_indent_left": 37, "bar_width": 826}
+    if theme == "discord-games.png":
+        styles = {"background": f"{URL}/discord-games.png", "bar_bg": "#484B4E", "bar_fill": "#FEFEFE", "bar_indent_left": 37, "bar_width": 826}
+    if theme == "discord-scene.png":
+        styles = {"background": f"{URL}/discord-scene.png", "bar_bg": "#484B4E", "bar_fill": "#C7C0F6", "bar_indent_left": 37, "bar_width": 826}
+    if theme == "galaxy.png":
+        styles = {"background": f"{URL}/galaxy.png", "bar_bg": "#484B4E", "bar_fill": "#33195F", "bar_indent_left": 37, "bar_width": 826}
+    if theme == "mountains.png":
+        styles = {"background": f"{URL}/mountains.png", "bar_bg": "#484B4E", "bar_fill": "#4C6DB2", "bar_indent_left": 37, "bar_width": 826}
+    if theme == "forest.png":
+        styles = {"background": f"{URL}/forest.png", "bar_bg": "#484B4E", "bar_fill": "#FEFEFE", "bar_indent_left": 37, "bar_width": 826}
+    return styles

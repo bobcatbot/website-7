@@ -1,14 +1,16 @@
-import logging, asyncio
-import discord, pymongo, pytz, requests, stripe
+import discord
+import pymongo
+import pytz
+import stripe
+import os
 from threading import Thread
 from zenora import APIClient
 from flask import Flask, redirect, url_for, render_template, request, flash, session, jsonify
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
 
 from plugins import fetch_plugins
 from consts import premium_faqs, premium_types, langs, tz
-from config import URL_BASE, PY_ENV, BOT_TOKEN, CLIENT_ID, CLIENT_SECRET, OAUTH_URL, REDIRECT_URI, mongoURI_db, stripe_config
+from config import URL_BASE, BOT_TOKEN, CLIENT_ID, CLIENT_SECRET, OAUTH_URL, REDIRECT_URI, mongoURI_db, mongo_cdn, stripe_config
 
 app = Flask(__name__)
 
@@ -79,7 +81,7 @@ async def redirect_error_page(e):
 ## Main web ##
 @app.route("/")
 async def index():
-  if not "token" in session:
+  if "token" not in session:
     return render_template("index.html", logInWithDiscord=OAUTH_URL)
 
   current_user = bearer_client().get_current_user()
@@ -87,7 +89,7 @@ async def index():
 
 @app.route("/plugins/management")
 async def web_token_management():
-  if not "token" in session:
+  if "token" not in session:
     return render_template("web-plugins/management.html", logInWithDiscord=OAUTH_URL)
 
   current_user = bearer_client().get_current_user()
@@ -95,7 +97,7 @@ async def web_token_management():
 
 @app.route("/plugins/utilities")
 async def web_token_utilities():
-  if not "token" in session:
+  if "token" not in session:
     return render_template("web-plugins/utilities.html", logInWithDiscord=OAUTH_URL)
 
   current_user = bearer_client().get_current_user()
@@ -103,7 +105,7 @@ async def web_token_utilities():
 
 @app.route("/plugins/engagement-and-fun")
 async def web_token_engagement():
-  if not "token" in session:
+  if "token" not in session:
     return render_template("web-plugins/engagement-and-fun.html", logInWithDiscord=OAUTH_URL)
 
   current_user = bearer_client().get_current_user()
@@ -111,7 +113,7 @@ async def web_token_engagement():
 
 @app.route('/contact-us') # update
 async def contactUs():
-  if not "token" in session:
+  if "token" not in session:
     return render_template("contact-us.html", logInWithDiscord=OAUTH_URL)
 
   current_user = bearer_client().get_current_user()
@@ -119,7 +121,7 @@ async def contactUs():
 
 @app.route('/thanks')
 async def thanks():
-  if not "token" in session:
+  if "token" not in session:
     return render_template("thanks.html", logInWithDiscord=OAUTH_URL)
 
   current_user = bearer_client().get_current_user()
@@ -127,7 +129,7 @@ async def thanks():
 
 @app.route('/terms')
 async def terms():
-  if not "token" in session:
+  if "token" not in session:
     return render_template('terms.html', logInWithDiscord=OAUTH_URL)
 
   current_user = bearer_client().get_current_user()
@@ -504,7 +506,7 @@ async def notifications(guild_id):
 
   for notification in data:
     date = notification['created_at']['date']
-    if not date in notifications_by_date:
+    if date not in notifications_by_date:
       notifications_by_date[date] = []
     notifications_by_date[date].append(notification)
     notifications_by_date[date].sort(key=lambda x: x['created_at']['time'], reverse=True)
@@ -690,7 +692,8 @@ async def forms_create(guild_id):
     data = request.get_json()
 
     def generateId(length=8):
-      import random, string
+      import random
+      import string
       letters = string.ascii_letters + string.digits
       return ''.join(random.choice(letters) for i in range(length))
 
@@ -756,10 +759,34 @@ async def levelling(guild_id):
 
   dash_data = get_dash_config(guild.id).get('leveling')
 
-  rank_cards = requests.post('https://cdn.bobcatbot.xyz/bot-level-cards')
-  cards = rank_cards.json()
-  server_card_url = f'https://cdn.bobcatbot.xyz/static/lvl-cards'
-  return render_template("dashboard/plugins/leveling.html", user=current_user, guild=guild, data=dash_data, server_cards=cards, server_card_url=server_card_url)
+  mongoRankCards = pymongo.MongoClient(mongo_cdn)['RankCards']['Cards']
+  all_rank_cards = mongoRankCards.find({})
+  
+  default_cards = [
+    {
+      "card": card['card'],
+      "bar_bg": card["bar_bg"],
+      "bar_fill": card["bar_fill"],
+      "bar_indent_left": card["bar_indent_left"],
+      "bar_width": card["bar_width"]
+    }
+    for card in mongoRankCards.find({"card": {"$in": imgs['default']}})
+  ]
+  
+  fun_cards = [
+    {
+      "card": file['card'],
+      "bar_bg": file["bar_bg"],
+      "bar_fill": file["bar_fill"],
+      "bar_indent_left": file["bar_indent_left"],
+      "bar_width": file["bar_width"]
+    }
+    for file in all_rank_cards
+    if file['card'] not in imgs['default']
+  ]
+  
+  cards = { 'all': default_cards + fun_cards, 'default': default_cards, 'cards': fun_cards }
+  return render_template("dashboard/plugins/leveling.html", user=current_user, guild=guild, data=dash_data, server_cards=cards)
 
 @app.route("/dashboard/<int:guild_id>/economy")
 @login_required
@@ -781,7 +808,7 @@ async def test_route(guild_id):
   channel = guild.get_channel(1031184603756646400)
   async def send_message():
     embed = discord.Embed(
-      title=f"Verification Test",
+      title="Verification Test",
       description="Please click the button below to verify yourself (from dashboard)",
       color=0x5865F2,
     )
@@ -890,7 +917,7 @@ def stripe_webhook():
     print('REQUEST TOO BIG')
     return "REQUEST TOO BIG", 400
 
-  payload = request.get_data();
+  payload = request.get_data()
   sig_header = request.environ.get('HTTP_STRIPE_SIGNATURE')
   endpoint_secret = app.config["STRIPE_WEBHOOK_KEY"]
   event = None

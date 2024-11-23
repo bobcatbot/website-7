@@ -146,7 +146,7 @@
         
         <hr>
         <svg viewBox="0 0 483 161" xmlns="http://www.w3.org/2000/svg" style="max-width: 483px;">
-          <image id="RankCardImg" xlink:href="{{server_card_url}}/{{data.card}}" x="0" y="0" width="100%" height="161px" preserveAspectRatio="xMidYMid slice" />
+          <image id="RankCardImg" xlink:href="{{ url_for('static', filename='lvl-cards/{{data.card}}') }}" x="0" y="0" width="100%" height="161px" preserveAspectRatio="xMidYMid slice" />
           <image xlink:href="{{user.avatar_url}}" x="0.7%" y="7%" width="20%" />
           <text x="22%" y="13%" fill="#fff" font-size="32" dominant-baseline="hanging">dinotech_</text>
           <rect x="22%" y="34%" width="240px" height="2" rx="0" ry="0" fill="#fff" />
@@ -169,7 +169,7 @@
                 </div>
                 <div class="modal-body">
                   <div class="position-relative">
-                    <img id="RankCardPrev" src="{{server_card_url}}/{{data.card}}" style="max-width: 465px;">
+                    <img id="RankCardPrev" src="{{ url_for('static', filename='lvl-cards/{{data.card}}') }}" style="max-width: 465px;">
                     <img src="{{user.avatar_url}}" style="position: absolute;top: 12px;left: 12px;max-width: 100px;border-radius: 100%;">
                     <p class="mb-0" style="position: absolute;top: 10px;left: 125px;font-size: 32px;margin: 0;">{{user.username}}</p>
                     <div class="d-flex gap-1" style="position: absolute;top: 50px;left: 130px;">
@@ -196,7 +196,7 @@
                     <p class="m-0 mb-1">Picture Backgrounds</p>
                     <div class="d-flex flex-wrap" style="gap: 4px;max-height: 290px;overflow: auto;">
                       {% for img in server_cards['cards'] %}
-                      <img class="rank-img-card" src="{{server_card_url}}/{{img.card}}" data-card="{{img.card}}" style="width: 140px;">
+                      <img class="rank-img-card" src="{{ url_for('static', filename='lvl-cards/{{img.card}}') }}" data-card="{{img.card}}" style="width: 140px;">
                       {% endfor %}
                     </div>
                   </div>
@@ -570,7 +570,7 @@
         card.classList.add('selected')
 
         var data = e.target.dataset.card
-        document.querySelector('#RankCardPrev').src = `{{server_card_url}}/${data}`
+        document.querySelector('#RankCardPrev').src = `{{ url_for('static', filename='lvl-cards/${data}') }}`
       })
     })
     document.querySelectorAll('.rank-img-card').forEach((card) => {
@@ -585,7 +585,7 @@
         card.classList.add('selected')
 
         var data = e.target.dataset.card
-        document.querySelector('#RankCardPrev').src = `{{server_card_url}}/${data}`
+        document.querySelector('#RankCardPrev').src = `{{ url_for('static', filename='lvl-cards/${data}') }}`
       })
     })
     document.querySelector('#RankCardSave').addEventListener('click', (e) => {

@@ -15,6 +15,7 @@ OAUTH_URL = f"https://discord.com/api/oauth2/authorize?client_id={CLIENT_ID}&red
 
 mongoURI_db = os.getenv('mongoURI_db')
 mongoURI_dash = os.getenv('mongoURI_dash')
+mongo_cdn = os.getenv('mongoURI_cdn')
 
 stripe_config = {
   "PUBLIC_KEY": os.getenv('STRIPE_PUBLIC_KEY'),
