@@ -1083,7 +1083,7 @@ class guild_models:
 async def on_ready():
   print(f'We have logged in as {bot.user}')
   channel = bot.get_channel(1110277292124536953)
-  await channel.send('Bot on railway is online')
+  # await channel.send('Bot on railway is online')
 
 def run():
   app.run(host='0.0.0.0', port=888)

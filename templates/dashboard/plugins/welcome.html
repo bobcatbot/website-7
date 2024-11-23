@@ -296,7 +296,7 @@
         document.querySelector('.feature_card.join').appendChild(joinData);
       }
 
-      show_toast("welcome.join.status", "{{data['join']['status']}}", `${joinStatus.checked}`)
+      show_toast("welcome.join.status", "{{data['join']['status']}}", joinStatus.checked)
     })
     document.querySelectorAll('button.nav-link.join-msg').forEach((button) => {
       button.addEventListener('click', (e) => {
@@ -340,7 +340,7 @@
         document.querySelector('.feature_card.dm').appendChild(dmData);
       }
       
-      show_toast("welcome.dm.status", "{{data['dm']['status']}}", `${dmStatus.checked}`)
+      show_toast("welcome.dm.status", "{{data['dm']['status']}}", dmStatus.checked)
     })
     document.querySelectorAll('button.nav-link.dm-msg').forEach((button) => {
       button.addEventListener('click', (e) => {
@@ -378,7 +378,7 @@
         document.querySelector('.feature_card.leave').appendChild(leaveData);
       }
       
-      show_toast("welcome.leave.status", "{{data['leave']['status']}}", `${leaveStatus.checked}`)
+      show_toast("welcome.leave.status", "{{data['leave']['status']}}", leaveStatus.checked)
     })
     document.querySelector('#leave-message').addEventListener('input', (e) => {
       var val = e.target.value;
@@ -411,7 +411,7 @@
         document.querySelector('.feature_card.autoroles').appendChild(autorolesData);
       }
       
-      show_toast("welcome.autoRoles.status", "{{data['autoRoles']['status']}}", `${autorolesStatus.checked}`)
+      show_toast("welcome.autoRoles.status", "{{data['autoRoles']['status']}}", autorolesStatus.checked)
     })
 
     const autorolesSelectWrapper = document.querySelector('.autoroles-select-wrapper.multiple');
