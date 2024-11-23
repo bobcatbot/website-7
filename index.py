@@ -9,7 +9,7 @@ from flask import Flask, redirect, url_for, render_template, request, flash, ses
 from datetime import datetime
 
 from plugins import fetch_plugins
-from consts import premium_faqs, premium_types, langs, tz
+from consts import premium_faqs, premium_types, imgs, langs, tz
 from config import URL_BASE, BOT_TOKEN, CLIENT_ID, CLIENT_SECRET, OAUTH_URL, REDIRECT_URI, mongoURI_db, mongo_cdn, stripe_config
 
 app = Flask(__name__)
