@@ -7,4 +7,3 @@ pytz
 requests
 stripe
 zenora
-discord-py
