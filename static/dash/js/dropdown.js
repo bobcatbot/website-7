@@ -42,13 +42,13 @@ function Select(el, options={ placeholder: '', type: '', multiple: false, maxIte
       });
     } else {
       if (selectedOptionsList.length > 0) {
-        selectSelected.classList.remove('placeholder');
+        selectSelected.classList.remove('val-placeholder');
         selectSelected.classList.add('chip');
         selectSelected.textContent = selectedOptionsList[0].name ?? selectedOptionsList[0].value;
         selectSelected.setAttribute('data-type', options.type);
       } else {
         selectSelected.classList.remove('chip');
-        selectSelected.classList.add('placeholder');
+        selectSelected.classList.add('val-placeholder');
         selectSelected.textContent = options.placeholder || 'Select an option';
       }
     }
