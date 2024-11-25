@@ -34,32 +34,33 @@
         
         <div class="info">
           <div class="field">
-            <h2>Next payment</h2>
+            <h6 class="title">Next payment</h6>
             <p>{{data.next_bill}} (in {{data.countdown}} days)</p>
           </div>
           <div class="field">
-            <h2>Amount</h2>
+            <h6 class="title">Amount</h6>
             <p>{{types[data.plan]['price']}}</p>
           </div>
           <div class="field">
-            <h2>Paid by</h2>
+            <h6 class="title">Paid by</h6>
             <div class="d-flex align-items-center">
               <img src="{{data.user.avatar}}" class="me-1" style="width: 32px;height: 32px;border-radius: 100%;" alt="Paid user avatar">
               <p class="m-0">{{data.user.name}}</p>
             </div>
           </div>
           <div class="field">
-            <h2>Guild ID</h2>
+            <h6 class="title">Guild ID</h6>
             <p>{{guild.id}}</p>
           </div>
           <div class="field">
-            <h2>Guild Name</h2>
+            <h6 class="title">Guild Name</h6>
             <p>{{guild.name}}</p>
           </div>
         </div>
       </div>
     </section>
 
+    {% if data.customer != '' %}
     <div class="manage-sub-wrapper">
       <button id="manage-sub" class="alert alert-custom  d-flex justify-content-between" role="alert">
         <span>
@@ -67,28 +68,27 @@
         </span>
         <i class="bi bi-arrow-right"></i>
       </button>
+      <script>
+        // #manage-sub
+        document.querySelector('#manage-sub').addEventListener('click', () => {
+          fetch(`/stripe/portal/{{data['customer']}}`, {
+            method: "POST",
+            body: JSON.stringify({
+              guild_id: '{{guild.id}}'  
+            }),
+          })
+            .then((result) => result.json())
+            .then((data) => {
+              location.href = data.url
+            })
+          /**/
+        })
+      </script>
     </div>
-    
+    {% endif %}
   </main>
 
   <script src="https://js.stripe.com/v3/"></script>
-  <script>
-    // #manage-sub
-    document.querySelector('#manage-sub').addEventListener('click', () => {
-      fetch(`/stripe/portal/{{data['customer']}}`, {
-        method: "POST",
-        body: JSON.stringify({
-          guild_id: '{{guild.id}}'  
-        }),
-      })
-        .then((result) => result.json())
-        .then((data) => {
-          location.href = data.url
-        })
-      /**/
-    })
-  </script>
-
   <style>
     .plan-title {
       font-size: 1rem;
@@ -111,7 +111,7 @@
       margin-top: 0;
     }
     
-    .info .field h2 {
+    .info .field .title {
       margin: 0;
       color: #6c757d;
       font-size: 1rem;

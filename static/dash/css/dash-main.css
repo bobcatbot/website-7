@@ -15,6 +15,12 @@
   --select-placeholder-color: var(--component-placeholder);
 }
 
+.text-muted {
+  --bs-text-opacity: 1;
+  color: rgb(170 170 170) !important;
+}
+
+/* badges */
 .badge-green {
   --badge-color: 99 245 140;
   background: rgb(var(--badge-color) / .2);

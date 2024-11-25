@@ -215,9 +215,9 @@ def login_required(f):
   return decorated_function
 
 ## Leaderboard ##
-@app.route("/leaderboard/<data>", methods=['GET', 'POST'])
+@app.route("/leaderboard/<guild_id>", methods=['GET', 'POST'])
 @login_required
-async def leaderboard_home(data):
+async def leaderboard_home(guild_id):
   current_user = bearer_client().get_current_user()
 
   if request.method == 'POST':
@@ -245,19 +245,19 @@ async def leaderboard_home(data):
       return jsonify({'status': 200})
     return jsonify({'status': 400})
 
-  for db_data in db.find():
-    if db_data['Dash']['leveling']['leaderboard']['url'] == "":
-      url = db_data['Dash']['leveling']['leaderboard']['url']
-    else:
-      url = db_data["_id"] # guild id
+  # for db_data in db.find():
+  #   if db_data['Dash']['leveling']['leaderboard']['url'] == "":
+  #     url = db_data['Dash']['leveling']['leaderboard']['url']
+  #   else:
+  #     url = db_data["_id"] # guild id
 
-    if url == data:
-      db_data = db_data
-    break
+  #   if url == data:
+  #     db_data = db_data
+  #   break
 
-  guild = bot.get_guild(int(db_data['_id']))
+  guild = bot.get_guild(int(guild_id))
 
-  lvl_config = get_dash_config(guild).get('leveling')
+  lvl_config = get_dash_config(guild_id).get('leveling')
 
   if not lvl_config['leaderboard']['public'] and current_user.id not in [member.id for member in guild.members]:
     flash('You are not allowed to view the leaderboard', 'error')
@@ -761,7 +761,7 @@ async def levelling(guild_id):
 
   mongoRankCards = pymongo.MongoClient(mongo_cdn)['RankCards']['Cards']
   all_rank_cards = mongoRankCards.find({})
-  
+
   default_cards = [
     {
       "card": card['card'],
@@ -772,7 +772,7 @@ async def levelling(guild_id):
     }
     for card in mongoRankCards.find({"card": {"$in": imgs['default']}})
   ]
-  
+
   fun_cards = [
     {
       "card": file['card'],
@@ -784,7 +784,7 @@ async def levelling(guild_id):
     for file in all_rank_cards
     if file['card'] not in imgs['default']
   ]
-  
+
   cards = { 'all': default_cards + fun_cards, 'default': default_cards, 'cards': fun_cards }
   return render_template("dashboard/plugins/leveling.html", user=current_user, guild=guild, data=dash_data, server_cards=cards)
 
@@ -797,30 +797,6 @@ async def economy(guild_id):
   dash = get_dash_config(guild.id).get('economy')
   dash_data = dash | {'num_items': len(dash['shop'])}
   return render_template("dashboard/plugins/economy.html", user=current_user, guild=guild, data=dash_data)
-
-
-@app.route("/dashboard/<int:guild_id>/test")
-@login_required
-async def test_route(guild_id):
-  current_user = bearer_client().get_current_user()
-  guild = bot.get_guild(guild_id)
-
-  channel = guild.get_channel(1031184603756646400)
-  async def send_message():
-    embed = discord.Embed(
-      title="Verification Test",
-      description="Please click the button below to verify yourself (from dashboard)",
-      color=0x5865F2,
-    )
-
-    view = discord.ui.View()
-    view.add_item(discord.ui.Button(label='Verify', style=discord.ButtonStyle.green, custom_id='Verification'))
-
-    await channel.send(embed=embed, view=view)
-  bot.loop.create_task(send_message())
-
-  return 'is this working?'
-
 
 ## other ##
 @app.route("/dashboard/<int:guild_id>/data/post", methods=["POST"])

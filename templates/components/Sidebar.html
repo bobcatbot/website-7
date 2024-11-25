@@ -52,6 +52,15 @@
       </a>
     </li>
     <li class="navbar-item plugin" data-active="False">
+      <a class="navbar-link custom-bot" data-href="/dashboard/{{guild.id}}/custom-bot" data-enable="False">
+        <div class="d-flex">
+          <span class="material-icons">mood</span>
+          <p class="m-0">Bot Personalizer</p>
+        </div>
+        {% include 'components/badges/beta.html' %}
+      </a>
+    </li>
+    <li class="navbar-item plugin" data-active="False">
       <a class="navbar-link settings" data-href="/dashboard/{{guild.id}}/settings" data-enable="False">
         <div class="d-flex">
           <span class="material-icons">settings</span>
@@ -152,13 +161,4 @@
       </ul>
     </li>
   </ul>
-
-  {% if guild and guild_models(guild).isPremium == False %}
-  <div class="premium-upgrade">
-    <a href="{{guild.id}}/premium" class="d-flex" style="font-size: 14px;align-items: baseline;gap: 4px;">
-      <i class="bi bi-star-fill" style="font-size: 24px;color: rgb(var(--premium-gold));"></i>
-      Upgrade to Premium
-    </a>
-  </div>
-  {% endif %}
 </aside>

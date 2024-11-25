@@ -27,7 +27,7 @@
         {% for question in data['questions'] %}
         <div class="question">
           <div class="title_desc">
-            <h4>{{ loop.index }}. {{question.title}}</h4>
+            <h4>{{question.title}}</h4>
             {% if question.description %}
             <p>{{question.description}}</p>
             {% endif %}

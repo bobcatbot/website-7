@@ -4,10 +4,10 @@
   {% include 'include/dash-links.html' %}
   <link href="{{ url_for('static', filename='dash/css/Embed.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='dash/css/EmojiPicker.css') }}" rel="stylesheet">
-  <link  href="{{ url_for('static', filename='vendor/coloris/coloris.min.css') }}" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
   
   <script src="{{ url_for('static', filename='dash/js/EmojiPicker.js') }}"></script>
-  <script src="{{ url_for('static', filename='vendor/coloris/coloris.min.js')  }}"></script>
+  <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
 </head>
 <body>
   <!-- ======= Header & Sidebar ======= -->
@@ -117,16 +117,16 @@
                     <p class="mb-0">Colors</p>
                     <div class="d-flex gap-1 btn-wrapper">
                       <div class="radio-wrapper">
-                        <input type="radio" id="btn-color-picker" name="btn-color" data-color="gray">
+                        <input type="radio" id="btn-color-picker-gray" name="btn-color" data-color="gray">
                       </div>
                       <div class="radio-wrapper">
-                        <input type="radio" id="btn-color-picker" name="btn-color" data-color="blurple">
+                        <input type="radio" id="btn-color-picker-b" name="btn-color" data-color="blurple">
                       </div>
                       <div class="radio-wrapper">
-                        <input type="radio" id="btn-color-picker" name="btn-color" data-color="red">
+                        <input type="radio" id="btn-color-picker-r" name="btn-color" data-color="red">
                       </div>
                       <div class="radio-wrapper">
-                        <input type="radio" id="btn-color-picker" name="btn-color" data-color="green">
+                        <input type="radio" id="btn-color-picker-green" name="btn-color" data-color="green">
                       </div>
                     </div>
                   </div>
@@ -575,7 +575,7 @@
 
       btnPreview.classList.add(`btn-${data[value]}`);
 
-      document.querySelectorAll('#btn-color-picker').forEach(color => {
+      document.querySelectorAll('[name="btn-color"]').forEach(color => {
         if (color.dataset.color == value) {
           color.checked = true;
         }

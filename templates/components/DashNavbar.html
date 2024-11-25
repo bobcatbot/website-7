@@ -4,12 +4,21 @@
     
     <a href="/" class="logo d-flex justify-content-center align-items-center">
       <img src="{{ url_for('static', filename='img/bobcat.png') }}" alt="">
-      <span class="d-none d-lg-block">BobCat</span>
+      <span class="d-none d-md-block">BobCat</span>
     </a>
   </div>
 
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
+      {% if guild and guild_models(guild).isPremium == False %}
+      <li class="premium-upgrade nav-item me-2 btn" variant="premium">
+        <a href="premium" class="d-flex" style="font-size: 14px;align-items: center;gap: 4px;color: rgb(var(--premium-gold));">
+          <i class="bi bi-star-fill" style="font-size: 16px;color: rgb(var(--premium-gold));"></i>
+          Upgrade to Premium
+        </a>
+      </li>
+      {% endif %}
+
       <li class="nav-item pe-2">
         <a href="/dashboard/{{guild.id}}/notifications" class="nav_link">
           <i class="bi bi-bell" style="display: flex;font-size: 22px;"></i>
