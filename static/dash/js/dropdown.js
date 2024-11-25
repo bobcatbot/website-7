@@ -92,7 +92,7 @@ function Select(el, options={ placeholder: '', type: '', multiple: false, maxIte
     updateSelectedOptions();
   }
   
-  selectSelected.classList.add('placeholder');
+  selectSelected.classList.add('val-placeholder');
   selectSelected.textContent = options.placeholder || 'Select an option';
 
   // Load default values if options parameter is not an empty array
@@ -104,7 +104,7 @@ function Select(el, options={ placeholder: '', type: '', multiple: false, maxIte
       });
       if (option) {
         option.classList.add('selected');
-        selectSelected.classList.remove('placeholder');
+        selectSelected.classList.remove('val-placeholder');
         
         const dictItem = { name: option.textContent, id: option.dataset.id, value: option.dataset.value };
         selectedOptionsList.push(dictItem);
