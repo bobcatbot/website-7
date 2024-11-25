@@ -279,9 +279,9 @@ async def leaderboard_home(guild_id):
   if not user:
     gp = False
 
-  if user.guild_permissions.administrator:
+  if user and user.guild_permissions.administrator:
     gp = True
-
+  
   return render_template("dashboard/leaderboard.html", user=current_user, guild_permissions=gp, guild=guild, data=lvl_config, users=users)
 
 ## Forms ##
