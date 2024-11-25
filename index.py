@@ -2,7 +2,6 @@ import discord
 import pymongo
 import pytz
 import stripe
-import os
 from threading import Thread
 from zenora import APIClient
 from flask import Flask, redirect, url_for, render_template, request, flash, session, jsonify
@@ -272,9 +271,16 @@ async def leaderboard_home(guild_id):
     player = bot.get_user(int(player_id))
     data['msg_count'] = lvl_users[player_id]['msg_count'] if 'msg_count' in lvl_users[player_id] else 0
     users.append((idx, (player, data)))
-
+  
+  gp = False
   user = guild.get_member(current_user.id)
-  gp = user.guild_permissions
+
+  # if the user not in server
+  if not user:
+    gp = False
+
+  if user.guild_permissions.administrator:
+    gp = True
 
   return render_template("dashboard/leaderboard.html", user=current_user, guild_permissions=gp, guild=guild, data=lvl_config, users=users)
 
