@@ -570,7 +570,7 @@
         card.classList.add('selected')
 
         var data = e.target.dataset.card
-        document.querySelector('#RankCardPrev').src = `{{ url_for('static', filename='lvl-cards/' + ${data}) }}`
+        document.querySelector('#RankCardPrev').src = `/static/lvl-cards/${data}`
       })
     })
     document.querySelectorAll('.rank-img-card').forEach((card) => {
@@ -585,7 +585,7 @@
         card.classList.add('selected')
 
         var data = e.target.dataset.card
-        document.querySelector('#RankCardPrev').src = `{{ url_for('static', filename='lvl-cards/' + ${data}) }}`
+        document.querySelector('#RankCardPrev').src = `/static/lvl-cards/${data}`
       })
     })
     document.querySelector('#RankCardSave').addEventListener('click', (e) => {
