@@ -1100,6 +1100,6 @@ def keep_alive():
   Thread(target=run).start()
 
 if __name__ == "__main__":
-  keep_alive()
+  run()
   # bot.loop.create_task(keep_alive())
   # bot.run(BOT_TOKEN)
