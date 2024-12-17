@@ -1096,7 +1096,7 @@ async def on_ready():
 
 def run():
   app.run(host='0.0.0.0', port=888)
-async def keep_alive():
+def keep_alive():
   Thread(target=run).start()
 
 if __name__ == "__main__":
