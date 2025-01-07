@@ -10,6 +10,8 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 
+WEBHOOK_PREM = os.getenv('DISCORD_WEBHOOK_PREM')
+
 REDIRECT_URI = f"{URL_BASE}/oauth/callback"
 OAUTH_URL = f"https://discord.com/api/oauth2/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&response_type=code&scope=identify%20guilds%20email%20guilds.join"
 

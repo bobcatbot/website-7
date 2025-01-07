@@ -9,7 +9,7 @@ from datetime import datetime
 
 from plugins import fetch_plugins
 from consts import premium_faqs, premium_types, imgs, langs, tz
-from config import URL_BASE, BOT_TOKEN, CLIENT_ID, CLIENT_SECRET, OAUTH_URL, REDIRECT_URI, mongoURI_db, mongo_cdn, stripe_config
+from config import URL_BASE, BOT_TOKEN, CLIENT_ID, CLIENT_SECRET, OAUTH_URL, WEBHOOK_PREM, REDIRECT_URI, mongoURI_db, mongo_cdn, stripe_config
 
 app = Flask(__name__)
 
@@ -438,10 +438,9 @@ async def premium(guild_id):
 
       if not prem_data['code']:
         return
-
-      wh_url = 'https://discord.com/api/webhooks/1175420459513282582/_wCZUkeNlIG3P3Fy1bfLJQVY_liEN5L9NR10rcLukwJlSSUU0GQuzQXAFt_W5qaDib7o'
+      
       async with aiohttp.ClientSession() as session:
-        webhook = discord.Webhook.from_url(wh_url, session=session)
+        webhook = discord.Webhook.from_url(WEBHOOK_PREM, session=session)
 
         code = data['code']
 
