@@ -4,6 +4,8 @@
   <title>Form | BobCat Bot</title>
   {% include 'include/dash-links.html' %}
   <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
 </head>
 <body onkeydown="handleKeyPress(event)">
   <!-- ======= Header & Sidebar ======= -->
@@ -34,9 +36,9 @@
           </div>
           <div class="answer">
             {% if question.type == "paragraph" %}
-            <textarea id="AnswerInput" class="text text-input" placeholder="Answer here..." style="--input-width: 100%;"></textarea>
+            <textarea id="AnswerInput-{{loop.index0}}" class="text text-input" placeholder="Answer here..." style="--input-width: 100%;"></textarea>
             {% elif question.type == "short" %}
-            <input    id="AnswerInput" class="text text-input" placeholder="Answer here..." style="--input-width: 100%;" />
+            <input    id="AnswerInput-{{loop.index0}}" class="text text-input" placeholder="Answer here..." style="--input-width: 100%;" />
             {% endif %}
           </div>
         </div>
@@ -59,6 +61,15 @@
   </main>
 
   <script>
+    function startConfetii() {
+      const jsConfetti = new JSConfetti();
+
+      jsConfetti.addConfetti({
+        canvas: document.querySelector("#confetti"),
+        confettiNumber: 700,
+      });
+    }
+
     const submitBtn = document.querySelector('#submit')
 
     function handleKeyPress(event) {
@@ -94,7 +105,7 @@
       response['submitted_at'] = new Date()
       
       for (let i=0; i < questions.length; i++) {
-        const answers = document.querySelectorAll('#AnswerInput')
+        const answers = document.querySelectorAll('[id^="AnswerInput-"]');
         response['answers'].push(answers[i].value)
       }
 
@@ -109,6 +120,8 @@
           if (data.status == 200) {
             document.querySelector('#form').style.display = 'none'
             document.querySelector('#sub-msg').style.display = 'block'
+
+            startConfetii();
           }
         })
     })

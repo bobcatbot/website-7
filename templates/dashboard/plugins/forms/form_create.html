@@ -108,7 +108,7 @@
               <div class="select-selected"></div>
               <div class="select-options">
                 {% for role in guild_models(guild).roles %}
-                  <div class="option" data-type="role" data-name="{{role.name}}" data-id="{{role.id}}" style="--color: {{role.color}}">{{role.name}}</div>
+                <div class="option" data-type="role" data-id="{{role.id}}" data-name="{{role.name}}" data-disabled="{{role.disabled}}" style="--color: {{role.color}}">{{role.name}}</div>
                 {% endfor %}
               </div>
             </div>
@@ -143,7 +143,7 @@
               <div class="select-selected"></div>
               <div class="select-options">
                 {% for role in guild_models(guild).roles %}
-                  <div class="option" data-type="role" data-name="{{role.name}}" data-id="{{role.id}}" style="--color: {{role.color}}">{{role.name}}</div>
+                <div class="option" data-type="role" data-id="{{role.id}}" data-name="{{role.name}}" data-disabled="{{role.disabled}}" style="--color: {{role.color}}">{{role.name}}</div>
                 {% endfor %}
               </div>
             </div>
@@ -157,7 +157,7 @@
               <div class="select-selected"></div>
               <div class="select-options">
                 {% for role in guild_models(guild).roles %}
-                  <div class="option" data-type="role" data-name="{{role.name}}" data-id="{{role.id}}" style="--color: {{role.color}}">{{role.name}}</div>
+                <div class="option" data-type="role" data-id="{{role.id}}" data-name="{{role.name}}" data-disabled="{{role.disabled}}" style="--color: {{role.color}}">{{role.name}}</div>
                 {% endfor %}
               </div>
             </div>

@@ -25,7 +25,7 @@
     </section>
     {% endif %}
 
-    {% for date, notifis in notifications.items() %}
+    {% for date, notifis in data.items() %}
     <section class="section">
       <div class="section__header">
         <h3 class="date" data-date="{{ date }}">{{ date }}</h3>
@@ -48,12 +48,6 @@
             } else {
               diffDaysString = diffDays + " days ago";
             }
-            // } else if (diffDays == 7) {
-            //   diffDaysString = "This week";
-            // } else {
-            //   diffDaysString = "Older";
-            // }
-
             item.innerHTML = diffDaysString + ", " + formattedDate;
           })
         </script>
@@ -88,20 +82,19 @@
             </div>
             <div class="notification__components">
               {% if notification.type == "error" and notification.fix %}
-              <a href="{{ notification.fix }}" class="btn btn-secondary">
+              <a href="{{ notification.fix }}" class="btn btn-secondary" target="_blank" aria-label="How to fix">
                 How to fix
-                <i class="bi bi-box-arrow-up-right"></i>
+                <i class="bi bi-chevron-right"></i>
               </a>
               {% endif %}
               {% if notification.type == "info" and notification.link %}
               <a href="{{ notification.link.url }}" class="btn btn-secondary">
                 {{ notification.link.text }}
-                <i class="bi bi-box-arrow-up-right"></i>
+                <i class="bi bi-chevron-right" aria-hidden="true"></i>
               </a>
               {% endif %}
-
               <div class="dropdown">
-                <button class="btn btn-link" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0;color: #fff;">
+                <button class="btn btn-link" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0;color: #fff;" aria-label="More options">
                   <i class="bi bi-three-dots-vertical"></i>
                 </button>
                 <ul class="dropdown-menu dark">
@@ -202,7 +195,7 @@
     .notification__body .notification__icons svg[data-unread="False"] {
       width: 22px;
       height: 22px;
-      fill: var(--color-primary);
+      fill: var(--blurple);
     }
     .notification__body .notification__icons svg[data-unread="True"] {
       width: 22px;
@@ -215,7 +208,7 @@
       flex-direction: column;
     }
     .notification__body .notification__info h5 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 800;
       margin-bottom: 0.25rem;
     }

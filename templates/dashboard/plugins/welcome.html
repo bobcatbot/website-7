@@ -30,7 +30,12 @@
     <section class="section">
       <div class="feature_card join">
         <div class="title d-flex justify-content-between align-items-center">
-          <h2>Send a message when a user joins the server</h2>
+          <div class="d-flex gap-2 align-items-center">
+            <h2>Send a message when a user joins the server</h2>
+            <button class="btn btn-outline-primary btn-sm" data-bs-target="#VariablesModal" data-bs-toggle="modal">
+              <i class="bi bi-info-circle" ></i>
+            </button>
+          </div>
           <div class="form-switch">
             {% if data['join']['status'] == True %}
             <input type="checkbox" id="join-status" class="form-check-input" role="switch" name="welcome-join-switch" style="font-size: 19px;" checked>
@@ -109,7 +114,12 @@
     <section class="section">
       <div class="feature_card dm">
         <div class="title d-flex justify-content-between align-items-center">
-          <h2>Send a private message to new users</h2>
+          <div class="d-flex gap-2 align-items-center">
+            <h2>Send a private message to new users</h2>
+            <button class="btn btn-outline-primary btn-sm" data-bs-target="#VariablesModal" data-bs-toggle="modal">
+              <i class="bi bi-info-circle" ></i>
+            </button>
+          </div>
           <div class="form-switch">
             {% if data['dm']['status'] == True %}
             <input type="checkbox" id="dm-status" class="form-check-input" role="switch" name="welcome-dm-switch" style="font-size: 19px;" checked>
@@ -117,6 +127,7 @@
             <input type="checkbox" id="dm-status" class="form-check-input" role="switch" name="welcome-dm-switch" style="font-size: 19px;">
             {% endif %}
           </div>
+          
         </div>
         
         <div id="dm-data">
@@ -153,7 +164,12 @@
     <section class="section">
       <div class="feature_card leave">
         <div class="title d-flex justify-content-between align-items-center">
-          <h2>Send a message when a user leaves the server</h2>
+          <div class="d-flex gap-2 align-items-center">
+            <h2>Send a message when a user leaves the server</h2>
+            <button class="btn btn-outline-primary btn-sm" data-bs-target="#VariablesModal" data-bs-toggle="modal">
+              <i class="bi bi-info-circle" ></i>
+            </button>
+          </div>
           <div class="form-switch">
             {% if data['leave']['status'] == True %}
             <input type="checkbox" id="leave-status" class="form-check-input" role="switch" name="welcome-leave" style="font-size: 19px;" checked>
@@ -212,7 +228,7 @@
                 <div class="select-selected">Select an option</div>
                 <div class="select-options">
                   {% for role in guild_models(guild).roles %}
-                    <div class="option" data-type="role" data-id="{{role.id}}" data-name="{{role.name}}" data-disabled="{{role.disabled}}" style="--color: {{role.color}}">{{role.name}}</div>
+                  <div class="option" data-type="role" data-id="{{role.id}}" data-name="{{role.name}}" data-disabled="{{role.disabled}}" style="--color: {{role.color}}">{{role.name}}</div>
                   {% endfor %}
                 </div>
               </div>
@@ -223,6 +239,7 @@
       </div>
     </section>
 
+    {% include 'components/Variables.html' %}
     {% include 'components/PremiumModal.html' %}
     {% include 'components/save-toast.html' %}
   </main>

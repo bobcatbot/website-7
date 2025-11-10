@@ -1,8 +1,12 @@
-from plugin_list import plugins
+import json
+from .plugin_list import plugins
 
 def fetch_plugins(dash):
-  plugins_dict = list(plugins.items())
-  for _item, _plugin in plugins_dict:
+  with open('dashboard/plugin_list.json', 'r', encoding='utf-8') as f:
+    plugins_dict = json.load(f)
+
+  for _item, _plugin in plugins_dict.items():
     plug = dash.get(_item)
     _plugin['status'] = plug['status']
-  return plugins_dict
+  
+  return plugins_dict.items()

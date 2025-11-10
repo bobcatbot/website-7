@@ -4,19 +4,18 @@ from dotenv import load_dotenv
 load_dotenv()
 
 URL_BASE = os.getenv('URL_BASE')
-PY_ENV = os.getenv('ENV')
+PY_ENV = os.getenv('PY_ENV')
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 
-WEBHOOK_PREM = os.getenv('DISCORD_WEBHOOK_PREM')
-
-REDIRECT_URI = f"{URL_BASE}/oauth/callback"
+REDIRECT_URI = os.getenv('REDIRECT_URI')
 OAUTH_URL = f"https://discord.com/api/oauth2/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&response_type=code&scope=identify%20guilds%20email%20guilds.join"
 
+WEBHOOK_PREM = os.getenv('WEBHOOK_PREM')
+
 mongoURI_db = os.getenv('mongoURI_db')
-mongoURI_dash = os.getenv('mongoURI_dash')
 mongo_cdn = os.getenv('mongoURI_cdn')
 
 stripe_config = {

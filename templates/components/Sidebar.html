@@ -14,17 +14,10 @@
       </a>
       <hr>
       {% for _guild in guilds() %}
-        {% if _guild.id == guild.id %}
-        <a href="/dashboard/{{_guild.id}}" class="guild active">
+        <a href="/dashboard/{{_guild.id}}" class="guild {% if _guild.id == guild.id %}active{% endif %}">
           <img src="{{_guild.icon_url}}" alt="">
           {{_guild.name}}
         </a>
-        {% else %}
-        <a href="/dashboard/{{_guild.id}}" class="guild">
-          <img src="{{_guild.icon_url}}" alt="">
-          {{_guild.name}}
-        </a>
-        {% endif %}
       {% endfor %}
       <hr>
       <a href="/dashboard">
@@ -51,7 +44,7 @@
         </div>
       </a>
     </li>
-    <li class="navbar-item plugin" data-active="False">
+    <li class="navbar-item plugin" data-active="False" hidden>
       <a class="navbar-link custom-bot" data-href="/dashboard/{{guild.id}}/custom-bot" data-enable="False">
         <div class="d-flex">
           <span class="material-icons">mood</span>
@@ -76,44 +69,30 @@
         </div>
       </a>
     </li>
+
+    {% set plugin_categories = [
+      ('Server Management', 'management'),
+      ('Utilities', 'utilities'),
+      ('Games & Fun', 'fun'),
+    ] %}
     
+    {% for title, category in plugin_categories %}
     <li>
-      <a class="navbar-heading" data-bs-target="#nav-management" data-bs-toggle="collapse">
-        <span>Server Management</span><i class="bi bi-chevron-down"></i>
+      <a class="navbar-heading" data-bs-target="#nav-{{category}}" data-bs-toggle="collapse">
+        <span>{{ title }}</span><i class="bi bi-chevron-down"></i>
       </a>
-      <ul id="nav-management" class="navbar-content collapse show">
-        {% for item, plugin in plugins(guild.id) %}
-        {% if plugin.category == 'management' %}
-        <li class="navbar-item plugin" data-active="False">
-          <a class="navbar-link {{plugin.url}} p-{{plugin.premium}}" data-href="/dashboard/{{guild.id}}/{{plugin.url}}" data-enable="{{plugin.status}}" data-is-premium="{{guild_models(guild).isPremium}}">
-            <div class="d-flex">
-              <div class="position-relative">
-                <span class="material-icons">{{plugin.icon}}</span>
-                <div class="status-indicator"></div>
-              </div>
-              <p class="m-0">{{plugin.title}}</p>
-            </div>
-            {% if plugin.badge == 'new'  %} {% include 'components/badges/new.html' %}
-            {% elif plugin.badge == 'beta' %} {% include 'components/badges/beta.html' %}
-            {% elif plugin.badge == 'soon' %} {% include 'components/badges/soon.html' %}
-            {% elif plugin.badge == 'prem' and plugin.premium == True %} {% include 'components/badges/prem.html' %}
-            {% endif %}
-          </a>
-        </li>
-        {% endif %}
-        {% endfor %}
-      </ul>
-    </li>
-    
-    <li>
-      <a class="navbar-heading" data-bs-target="#nav-utilities" data-bs-toggle="collapse">
-        <span>Utilities</span><i class="bi bi-chevron-down"></i>
-      </a>
-      <ul id="nav-utilities" class="navbar-content collapse show">
+      <ul id="nav-{{category}}" class="navbar-content collapse show">
         {% for item, plugin in plugins(guild) %}
-        {% if plugin.category == 'utilities' %}
+        {% if plugin.category == category %}
         <li class="navbar-item plugin" data-active="False">
-          <a class="navbar-link {{plugin.url}} p-{{plugin.premium}}" data-href="/dashboard/{{guild.id}}/{{plugin.url}}" data-enable="{{plugin.status}}" data-is-premium="{{guild_models(guild).isPremium}}">
+          <a 
+            class="navbar-link" 
+            data-href="/dashboard/{{guild.id}}/{{plugin.url}}" 
+            data-plugin="{{plugin.title}}" 
+            data-key="{{plugin.db_key}}"
+            data-enable="{{plugin.status}}" 
+            data-is-premium="{{guild_models(guild).isPremium}}"
+          >
             <div class="d-flex">
               <div class="position-relative">
                 <span class="material-icons">{{plugin.icon}}</span>
@@ -124,7 +103,7 @@
             {% if plugin.badge == 'new'  %} {% include 'components/badges/new.html' %}
             {% elif plugin.badge == 'beta' %} {% include 'components/badges/beta.html' %}
             {% elif plugin.badge == 'soon' %} {% include 'components/badges/soon.html' %}
-            {% elif plugin.badge == 'prem' and plugin.premium == True %} {% include 'components/badges/prem.html' %}
+            {% elif plugin.badge == 'prem' and plugin.premium == True and not guild_models(guild).isPremium %} {% include 'components/badges/prem.html' %}
             {% endif %}
           </a>
         </li>
@@ -132,33 +111,6 @@
         {% endfor %}
       </ul>
     </li>
-    
-    <li>
-      <a class="navbar-heading" data-bs-target="#nav-games" data-bs-toggle="collapse">
-        <span>Games & Fun</span><i class="bi bi-chevron-down"></i>
-      </a>
-      <ul id="nav-games" class="navbar-content collapse show">
-        {% for item, plugin in plugins(guild) %}
-        {% if plugin.category == 'fun' %}
-        <li class="navbar-item plugin" data-active="False">
-          <a class="navbar-link {{plugin.url}} p-{{plugin.premium}}" data-href="/dashboard/{{guild.id}}/{{plugin.url}}" data-enable="{{plugin.status}}" data-is-premium="{{guild_models(guild).isPremium}}">
-            <div class="d-flex">
-              <div class="position-relative">
-                <span class="material-icons">{{plugin.icon}}</span>
-                <div class="status-indicator"></div>
-              </div>
-              <p class="m-0">{{plugin.title}}</p>
-            </div>
-            {% if plugin.badge == 'new'  %} {% include 'components/badges/new.html' %}
-            {% elif plugin.badge == 'beta' %} {% include 'components/badges/beta.html' %}
-            {% elif plugin.badge == 'soon' %} {% include 'components/badges/soon.html' %}
-            {% elif plugin.badge == 'prem' and plugin.premium == True %} {% include 'components/badges/prem.html' %}
-            {% endif %}
-          </a>
-        </li>
-        {% endif %}
-        {% endfor %}
-      </ul>
-    </li>
+    {% endfor %}
   </ul>
 </aside>

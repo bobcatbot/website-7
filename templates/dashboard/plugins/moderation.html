@@ -26,10 +26,7 @@
       </div>
     </div>
 
-    <ul class="nav nav-tabs nav-tabs-bordered" role="tablist">
-      <!-- <li class="nav-item" role="presentation">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#automod">AutoMod</button>
-      </li> -->
+    <ul class="nav nav-tabs nav-tabs-bordered margin" role="tablist">
       <li class="nav-item" role="presentation">
         <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#mod">Moderation</button>
       </li>
@@ -37,12 +34,6 @@
         <button class="nav-link" data-bs-toggle="tab" data-bs-target="#logging">Audit Logging</button>
       </li>
     </ul>
-    
-    <div class="tab-content">
-      <div id="automod" class="tab-pane pt-2" role="tabpanel">
-        <p>Coming soon...</p>
-      </div>
-    </div>
     
     <div class="tab-content">
       <div id="mod" class="tab-pane pt-2 active show" role="tabpanel">
@@ -55,7 +46,8 @@
             
             <hr>
             <div>
-              <p class="mb-1">Private Message</p>
+              <p class="mb-0">Private Message</p>
+              <p class="mb-1 fs-7 text-muted">Send a private message to the user when they are kicked</p>
               <div class="kick-dm-wrapper multi">
                 <div class="select">
                   <div class="select-selected"></div>
@@ -80,7 +72,8 @@
             
             <hr>
             <div>
-              <p class="mb-1">Private Message</p>
+              <p class="mb-0">Private Message</p>
+              <p class="mb-1 fs-7 text-muted">Send a private message to the user when they are banned</p>
               <div class="ban-dm-wrapper multi">
                 <div class="select">
                   <div class="select-selected"></div>
@@ -94,7 +87,8 @@
               </div>
             </div>
             <div class="mt-2">
-              <p class="mb-1">Default message purge</p>
+              <p class="mb-0">Default message purge</p>
+              <p class="mb-1 fs-7 text-muted">Select the messages to purge when a user is banned</p>
               <div class="ban-delete-wrapper single">
                 <div class="select">
                   <div class="select-selected"></div>
@@ -123,7 +117,8 @@
             
             <hr>
             <div>
-              <p class="mb-1">Private Message</p>
+              <p class="mb-0">Private Message</p>
+              <p class="mb-1 fs-7 text-muted">Send a private message to the user when they are muted</p>
               <div class="mute-dm-wrapper multi">
                 <div class="select">
                   <div class="select-selected"></div>
@@ -137,7 +132,8 @@
               </div>
             </div>
             <div class="mt-2">
-              <p class="mb-1">Mute type</p>
+              <p class="mb-0">Mute type</p>
+              <p class="mb-1 fs-7 text-muted">Select the type of mute</p>
               <div class="mute-type-wrapper single">
                 <div class="select">
                   <div class="select-selected"></div>
@@ -149,7 +145,8 @@
               </div>
             </div>
             <div class="mt-2">
-              <p class="mb-1">Default mute duration</p>
+              <p class="mb-0">Default mute duration</p>
+              <p class="mb-1 fs-7 text-muted">Select the mute duration</p>
               <div class="mute-duration-wrapper single">
                 <div class="select">
                   <div class="select-selected">Select a time</div>
@@ -176,7 +173,8 @@
             
             <hr>
             <div>
-              <p class="mb-1">Private Message</p>
+              <p class="mb-0">Private Message</p>
+              <p class="mb-1 fs-7 text-muted">Send a private message to the user when they are warned</p>
               <div class="warn-dm-wrapper multi">
                 <div class="select">
                   <div class="select-selected">Select an option</div>
@@ -205,7 +203,7 @@
 
             <hr>
             <div>
-              <p class="mb-1">Logging channel</p>
+              <p class="mb-0">Logging channel</p>
               <div class="log-chan-wrapper single">
                 <div class="select">
                   <div class="select-selected">Select an option</div>
@@ -375,7 +373,7 @@
         
       </div>
     </div>
-
+    
     {% include 'components/PremiumModal.html' %}
     {% include 'components/save-toast.html' %}
   </main>

@@ -9,9 +9,6 @@ client = APIClient(BOT_TOKEN, client_secret=CLIENT_SECRET)
 MongoClientBot = pymongo.MongoClient(mongoURI_db)
 db = MongoClientBot['Bot']['Bot']
 
-# MongoClientDash = pymongo.MongoClient(mongoURI_dash)
-# dashboard = MongoClientDash['Dash']['Dash']
-
 def bearer_client():
   bearer_client = APIClient(session.get("token"), bearer=True)
   return bearer_client.users

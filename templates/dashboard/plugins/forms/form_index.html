@@ -7,15 +7,15 @@
   <!-- ======= Header & Sidebar ======= -->
   {% include 'components/DashNavbar.html' %}
   {% include 'components/Sidebar.html' %}
+
+  {% set plugin = get_plugin(guild, 'forms') %}
   
   <!-- ======= Main ======= -->
   <main id="main" class="main position-relative">
     <div class="pagetitle plugin">
       <div>
-        {% with plugin = get_plugin(guild, 'forms') %}
-          <h1>{{plugin['title']}}</h1>
-          <p class="m-0">{{plugin['description']}}</p>
-        {% endwith %}
+        <h1>{{plugin['title']}}</h1>
+        <p class="m-0">{{plugin['description']}}</p>
       </div>
       <div class="form-switch">
         {% if plugin['status'] == True %}
@@ -28,7 +28,7 @@
 
     <section class="section">
       <div class="feature_card" style="border: 2px solid var(--color-primary);">
-        <a href="forms/creation"><div class="title d-flex justify-content-between align-items-center">
+        <a href="forms/creation" id="create-hub-btn"><div class="title d-flex justify-content-between align-items-center">
           <h2>Create form</h2>
           <div>
             <i class="bi bi-plus-lg"></i>
@@ -39,8 +39,16 @@
     
     <section class="section">
       <div class="feature_card">
-        <div class="title">
-          <h2>Your forms</h2>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="title">
+            <h2>Your forms</h2>
+          </div>
+
+          <div class="d-flex gap-1 align-items-end ps-0 user-select-none form-switch">
+            <span id="form-count">{{data | length}}</span>
+            <span>/</span>
+            <span id="form-max-count">{{plugin['max']}}</span>
+          </div>
         </div>
         <hr>
         
@@ -90,6 +98,24 @@
       </div>
     </section>
 
+    <!-- MaxHubLimit -->
+    <div class="modal fade dark" id="MaxHubLimit" tabindex="-1" aria-labelledby="MaxHubLimitLabel">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="MaxHubLimitLabel">Oops, an error occurred!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Maximum number of ticket pannels reached.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     {% with messages = get_flashed_messages(with_categories=True) %}
     {% if messages %}
       <div class="toast-container w-100 p-3" style="position: absolute;top: 0;right: 0;">
@@ -103,17 +129,30 @@
       {% endfor %}
       </div>
     {% endif %}
-    {% endwith %}
-    
+    {% endwith %}    
   </main>
 
   <script>
-    document.querySelector('#form-status').addEventListener('change', (e) => {
-      fetch("/dashboard/{{guild.id}}/data/post", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ "forms.status": e.target.checked }),
-      });
+    document.addEventListener('DOMContentLoaded', (e) => {
+      var formCount = document.querySelector('#form-count')
+      var formMaxCount = document.querySelector('#form-max-count')
+      var createButton = document.querySelector('#create-hub-btn')
+
+      if (formCount.innerText >= formMaxCount.innerText) {
+        formCount.classList.add('text-danger');
+
+        // find the create ticket button and remove href
+        createButton.href = null;
+        createButton.setAttribute('data-bs-toggle', 'modal');
+        createButton.setAttribute('data-bs-target', '#MaxHubLimit');
+      } else {
+        formCount.classList.remove('text-danger');
+
+        // find the create ticket button and remove href
+        createButton.href = 'forms/creation';
+        createButton.removeAttribute('data-bs-toggle');
+        createButton.removeAttribute('data-bs-target');
+      }
     })
 
     var toastFlash = document.getElementById('toastFlash')
@@ -122,6 +161,15 @@
         toastFlash.classList.remove('show')
       }, parseInt(toastFlash.dataset.autohide));
     }
+
+    document.querySelector('#form-status').addEventListener('change', (e) => {
+      fetch("/dashboard/{{guild.id}}/data/post", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ "forms.status": e.target.checked }),
+      });
+    })
+        
 
     document.querySelectorAll('#status').forEach((el) => {
       el.addEventListener('change', (e) => {
@@ -142,6 +190,7 @@
       --bs-card-border-color: rgb(23, 24, 30);
 
       padding: 13px;
+      color: #fff;
     }
 
     .card .title h5 {

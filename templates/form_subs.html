@@ -46,8 +46,9 @@
                   <button class="btn btn-secondary" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-three-dots-vertical"></i>
                   </button>
-                  <ul class="dropdown-menu">
-                    <li><a id="view-submission" class="dropdown-item">View</a></li>
+                  <ul class="dropdown-menu dark">
+                    <li><a id="view-submission" class="dropdown-item" data-id="{{submission.id}}">View</a></li>
+                    {% if can_manage %}<li><a id="delete-submission" class="dropdown-item" data-id="{{submission.id}}">Delete</a></li>{% endif %}
                   </ul>
                 </div>                
               </td>
@@ -58,8 +59,7 @@
       </div>
     </section>
 
-    {% if data %}
-    <div class="modal dark show" id="user-modal" tabindex="-1" aria-labelledby="userModalTitle" aria-modal="true" role="dialog" style="display: block;">
+    <div class="modal dark" id="user-modal" tabindex="-1" aria-labelledby="userModalTitle" aria-modal="true" role="dialog">
       <div class="modal-dialog modal-dialog-centerd">
         <div class="modal-content">
           <div class="modal-header">
@@ -67,19 +67,18 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <!-- <p>Woo-hoo, you're reading this text in a modal!</p> -->
             {% for question in form['questions'] %}
             {% if question.type == "paragraph" %}
             <h5>{{question.title}}</h5>
             <textarea 
-              id="AnswerInput" class="text text-input" placeholder="Answer here..." style="--input-width: 100%;"
-            >{{data['answers'][loop.index0]}}</textarea>
+              id="AnswerInput-{{loop.index0}}" class="text text-input" placeholder="Answer here..." style="--input-width: 100%;"
+            ></textarea>
             {% endif %}
             {% if question.type == "short" %}
             <h5>{{question.title}}</h5>
             <input
-              id="AnswerInput" class="text text-input" placeholder="Answer here..." style="--input-width: 100%;" 
-              value="{{data['answers'][loop.index0]}}"
+              id="AnswerInput-{{loop.index0}}" class="text text-input" placeholder="Answer here..." style="--input-width: 100%;" 
+              value=""
             />
             {% endif %}
             {% endfor %}
@@ -90,15 +89,46 @@
         </div>
       </div>
     </div>
-    {% endif %}
   </main>
 
   <script>
-    const viewSubmissionBtn = document.querySelector('#view-submission')
-    viewSubmissionBtn.addEventListener('click', () => {
-      const ID = viewSubmissionBtn.closest('tr').dataset.id
-      // add user_id to the url
-      location.href = location.pathname +  `?response_id=${ID}`
+    const viewSubmissionBtnAll = document.querySelectorAll('#view-submission');
+    viewSubmissionBtnAll.forEach((el) => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        var viewSubmission = new bootstrap.Modal(document.getElementById('user-modal'));
+        viewSubmission.show();
+
+        const ID = el.dataset.id;
+
+        var responses = JSON.parse('{{form.responses | tojson}}');
+        const response = responses.find(r => r.id === ID);
+
+        // Populate the form fields with the answers
+        document.querySelectorAll('[id^="AnswerInput-"]').forEach((input, index) => {
+          input.value = response.answers[index];
+        });
+      });
+    });
+
+    const allDeleteSubmissionBtn = document.querySelectorAll('#delete-submission')
+    allDeleteSubmissionBtn.forEach((el) => {
+      el.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        fetch(`submissions`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ "id": el.dataset.id })
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.status == 200) {
+              el.closest('tr').remove()
+            }
+          })
+      })
     })
   </script>
 

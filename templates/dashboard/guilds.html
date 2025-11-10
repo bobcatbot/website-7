@@ -10,6 +10,12 @@
 
   <main class="mainn">
     <h2 class="text-center fs-3 fw-semibold">Select a server</h2>
+    {% if guilds == [] %}
+    <div class="d-flex flex-column justify-content-center align-items-center" style="margin-top: 25px;margin-bottom: 25px;">
+      <p class="mb-1 fs-7">Opps, looks like you don't have any servers.</p>
+      <p class="mb-1 fs-7">Are you sure you are logged in to the correct account?</p>
+    </div>
+    {% else %}
     <div class="d-flex flex-column justify-content-center align-items-center" style="margin-top: 25px;margin-bottom: 25px;">
       <div class="server-card grid grid-cols gap-4 lg:gap-6">
         {% for guild in guilds %}
@@ -35,6 +41,7 @@
         {% endfor %}
       </div>
     </div>
+    {% endif %}
   </main>
   
   <style>

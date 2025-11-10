@@ -40,13 +40,17 @@
             <p class="m-0">Anyone can view your server's leaderboard by visiting the link.</p>
           </label>
           <div class="form-switch ps-0">
+            {% if data['leaderboard']['public'] == True %}
+            <input type="checkbox" id="lbStatus" class="form-check-input ms-0 mt-0" role="switch" name="lb-status" checked>
+            {% else %}
             <input type="checkbox" id="lbStatus" class="form-check-input ms-0 mt-0" role="switch" name="lb-status">
+            {% endif %}
           </div>
         </div>
         <div class="mt-2">
           <label for="lbLink" class="fw-bold">URL</label><br>
           <div class="d-flex gap-2">
-            <input type="text" id="lbLink" name="lbLink" class="text-input" value="/leaderboard/{{data.leaderboard.url if data.leaderboard.url != '' else guild.id}}" />
+            <input type="text" id="lbLink" name="lbLink" class="text-input" value="/leaderboard/{{data.leaderboard.url if data.leaderboard.url != '' else guild.id}}" disabled readonly />
             <a id="lbLinka" class="btn d-flex align-items-center" href="/leaderboard/{{data.leaderboard.url if data.leaderboard.url != '' else guild.id}}" variant="secondary" target="_blank">
               <i class="bi bi-box-arrow-up-right"></i>
             </a>
@@ -94,41 +98,11 @@
         </div>
 
         <div class="mt-2">
-          <div class="d-flex">
-            <p class="mb-1">Level Up Announcement Message</p>
-
-            <div class="ms-1">
-              <i class="bi bi-info-circle" data-bs-toggle="modal" data-bs-target="#submissionViewersModal"></i>
-              <div class="modal fade dark" id="submissionViewersModal" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header border-0 pb-0">
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <ul>
-                        <li>{user.mention} - @username</li>
-                        <li>{user.id} - User's ID</li>
-                        <li>{user.name} - User's username</li>
-                        <li>{user.idname} - User's username & discriminator (#0)</li>
-                        <li>{user.display_name} - User's serevr nickname</li>
-                        <li>{user.discriminator} - User's discriminator</li>
-                        <br>
-                        <li>{server} - Server's name</li>
-                        <li>{server.id} - Server's ID</li>
-                        <li>{server.name} - Server's name</li>
-                        <li>{server.member_count} - Server's total member count</li>
-                        <br>
-                        <li>{level} - Users new level</li>
-                      </ul>
-                    </div>
-                    <div class="modal-footer border-0 pt-0">
-                      <a href="">Learn more</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="d-flex gap-2 align-items-center mb-2">
+            <p class="mb-0">Level Up Announcement Message</p>
+            <button class="btn btn-outline-primary btn-sm" data-bs-target="#VariablesModal" data-bs-toggle="modal">
+              <i class="bi bi-info-circle" ></i>
+            </button>
           </div>
           <textarea id="LevelAnnoMsg" class="text-input" name="LevelAnnoMsg"></textarea>
           <script>document.querySelector('#LevelAnnoMsg').value = "{{data['message']['content']}}"</script>
@@ -169,7 +143,7 @@
                 </div>
                 <div class="modal-body">
                   <div class="position-relative">
-                    <img id="RankCardPrev" src="{{ url_for('static', filename='lvl-cards/' + data.card) }}"  style="max-width: 465px;">
+                    <img id="RankCardPrev" src="{{ url_for('static', filename='lvl-cards/' + data.card) }}" style="max-width: 465px;">
                     <img src="{{user.avatar_url}}" style="position: absolute;top: 12px;left: 12px;max-width: 100px;border-radius: 100%;">
                     <p class="mb-0" style="position: absolute;top: 10px;left: 125px;font-size: 32px;margin: 0;">{{user.username}}</p>
                     <div class="d-flex gap-1" style="position: absolute;top: 50px;left: 130px;">
@@ -196,7 +170,7 @@
                     <p class="m-0 mb-1">Picture Backgrounds</p>
                     <div class="d-flex flex-wrap" style="gap: 4px;max-height: 290px;overflow: auto;">
                       {% for img in server_cards['cards'] %}
-                      <img class="rank-img-card" src="{{ url_for('static', filename='lvl-cards/' + img.card) }}"  data-card="{{img.card}}" style="width: 140px;">
+                      <img class="rank-img-card" src="{{ url_for('static', filename='lvl-cards/' + img.card) }}" data-card="{{img.card}}" style="width: 140px;">
                       {% endfor %}
                     </div>
                   </div>
@@ -218,30 +192,41 @@
         <div class="title">
           <h2>Role Rewards</h2>
           <p>Role Rewards are given to users when they hit the respective level.</p>
+          <p>when checked users can have multiple rewards at once but the highest reward will be given. when unchecked only the highest reward will be given and the previous rewards will be removed</p>
         </div>
         
         <hr>
         <div>
-          <div class="form-switch ps-0">
+          <div class="form-check ms-0 mb-1">
             {% if data.roleRewards.stacked == True %}
-            <input type="checkbox" id="role-reward-stacked" class="form-check-input ms-0 mt-0" role="switch" checked>
+            <input type="radio" id="role-reward-stacked1" name="RoleRewardStacked" class="form-check-input me-2" checked>
             {% else %}
-            <input type="checkbox" id="role-reward-stacked" class="form-check-input ms-0 mt-0" role="switch">
+            <input type="radio" id="role-reward-stacked1" name="RoleRewardStacked" class="form-check-input me-2">
             {% endif %}
-            <label for="role-reward-stacked">Stack rewards</label>
+            <label for="role-reward-stacked1">Stack rewards</label>
+            <p class="m-0" style="color: #9195ab;font-size: 14px;">Users can have multiple rewards at once</p>
+          </div>
+          <div class="form-check ms-0">
+            {% if data.roleRewards.stacked == False %}
+            <input type="radio" id="role-reward-stacked2" name="RoleRewardStacked" class="form-check-input me-2" checked>
+            {% else %}
+            <input type="radio" id="role-reward-stacked2" name="RoleRewardStacked" class="form-check-input me-2">
+            {% endif %}
+            <label for="role-reward-stacked2">Remove rewards</label>
+            <p class="m-0" style="color: #9195ab;font-size: 14px;">Users can only have the highest reward</p>
           </div>
         </div>
 
         <div class="mt-2">
           <hr>
-          <div class="d-flex justify-content-end">
+          <div class="d-flex justify-content-end mb-2">
             <button type="button" class="btn btn-blurple" data-bs-toggle="modal" data-bs-target="#RoleRewardAddModal">
               <i class="bi bi-plus-lg"></i>
               Add Role Reward
             </button>
           </div>
           <!-- table -->
-          <table class="table" style="--bs-table-color: #fff;">
+          <table class="tablee">
             <thead>
               <tr>
                 <th>Level</th>
@@ -399,11 +384,16 @@
       </div>
     </div>
 
+    {% include 'components/variables.html' %}
     {% include 'components/PremiumModal.html' %}
     {% include 'components/save-toast.html' %}
   </main>
 
   <style>
+    :root {
+      --color: #ffffff;
+    }
+
     .rank-img-card {
       border: 3px solid transparent;
     }
@@ -432,6 +422,31 @@
     input[type="radio"]:checked {
       outline-color: var(--color);
       outline-offset: 1px;
+    }
+
+    .tablee {
+      width: 100%;
+      background: #181a20;
+      color: var(--text-color);
+      border-color: transparent;
+    }
+        
+    .tablee tr th {
+      font-size: 16px;
+      line-height: 19px;
+      padding: 14px;
+      border-bottom: #2d3343 solid 2px;
+    }
+    .tablee tr {
+      background-color: #181a20;
+      border-bottom: #2d3343 solid 2px;
+    }
+    .tablee tr:last-child {
+      border-bottom: transparent solid 2px;
+    }
+    .tablee > tbody > tr > td {
+      vertical-align: middle;
+      padding: 14px;
     }
   </style>
 
@@ -602,11 +617,21 @@
     })
 
     /* Role rewards */
-    document.querySelector('#role-reward-stacked').addEventListener('change', (e) => {
-      var val = e.target.checked;
-      
-      show_toast("leveling.roleRewards.stacked", "{{data['roleRewards']['stacked']}}", val)
-    })
+    const stackedInput = document.querySelector('#role-reward-stacked1');
+    const removedInput = document.querySelector('#role-reward-stacked2');
+
+    // Attach event to both
+    stackedInput.addEventListener('change', () => {
+      if (stackedInput.checked) {
+        show_toast("leveling.roleRewards.stacked", "{{data['roleRewards']['stacked']}}", true);
+      }
+    });
+
+    removedInput.addEventListener('change', () => {
+      if (removedInput.checked) {
+        show_toast("leveling.roleRewards.stacked", "{{data['roleRewards']['stacked']}}", false);
+      }
+    });
 
     var save_rr_btn = document.querySelector('#RoleRewardSave')
     save_rr_btn.addEventListener('click', (e) => {

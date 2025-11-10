@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   {% include 'include/links.html' %}
@@ -25,7 +24,7 @@
         {% else %}
         <img 
           id="hero-image"
-          class="img-fluid hero-img"
+          class="img-fluid hero-img no-banner"
           src="{{guild.icon.url}}"
           alt="Server Icon"
         >
@@ -66,6 +65,7 @@
                   <img src="{{player.display_avatar}}" class="image" alt="Avatar">
                   <span>{{player.display_name}}</span>
 
+                  {% if guild_permissions.administrator or guild_permissions.bot_master %}
                   <div class="ms-2">
                     <button 
                       class="UserResetXp btn btn-danger" 
@@ -93,6 +93,7 @@
                       </div>
                     </div>
                   </div>
+                  {% endif %}
                 </div>
               </div>
               
@@ -108,7 +109,7 @@
         
         <div class="col-md-4">
           <!-- Tools -->
-          {% if guild_permissions %}
+          {% if guild_permissions.administrator or guild_permissions.bot_master %}
           <div class="feature_card mb-2">
             <div class="title">
               <h2>Admin tools</h2>
@@ -116,7 +117,7 @@
             
             <hr>
             <div>
-              <a href="/dashboard/{{guild.id}}/leveling" class="btn btn-link" style="--bs-btn-color: rgb(145 149 171);--bs-btn-hover-color: #fff;padding: 0;text-decoration: none;">
+              <a href="/dashboard/{{guild.id}}/leveling" class="btn btn-link" style="--bs-btn-color: rgb(145 149 171);--bs-btn-hover-color: #131212;padding: 0;text-decoration: none;">
                 <i class="bi bi-gear-fill pe-2"></i>
                 Leveling Settings
               </a>
@@ -159,6 +160,7 @@
             </div>
           </div>
           {% endif %}
+
           <!-- How it works -->
           <div class="feature_card">
             <div class="title">
@@ -184,7 +186,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           guild_id: '{{guild.id}}',
-          key: 'BannerRemove'
+          key: 'RemoveBanner'
         })
       })
     })
@@ -195,7 +197,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           guild_id: '{{guild.id}}',
-          key: 'reset'
+          key: 'rest_all'
         })
       })
       .then(res => res.json())
@@ -220,8 +222,8 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            guild_id: '{{guild.id}}',
             key: 'reset',
+            guild_id: '{{guild.id}}',
             user_id: user
           })
         })
@@ -245,9 +247,11 @@
       height: auto;
       padding: 0px 0;
     }
+    
     #hero .container {
-      padding-top: 20px;
+      padding-top: 40px;
     }
+    
     #hero .hero-img {
       width: 160px;
       height: 160px;
@@ -259,11 +263,14 @@
     }
     
     #hero .hero-img-container {
+      position: relative;
       width: 100%;
+      top: -68px;
+      padding-top: 148px;
     }
     #hero .hero-img-container:has(#banner) {
       position: relative;
-      top: -60px;
+      top: -68px;
       padding-top: 50px;
     }
 

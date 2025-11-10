@@ -22,6 +22,46 @@
         <p class="m-0">Here you can adjust the bots settings</p>
       </div>
     </div>
+
+    <section class="section">
+      <div class="feature_card">
+        <div class="title">
+          <h2>Bot masters</h2>
+          <p>Bot masters can access your Dashboard and edit every command and plugin configuration. Bot masters also bypass command role checks, see all tickets from the Ticketing plugin, are automatically considered immune in the Moderator plugin and can reset anyone's XP in the Levels plugin!</p>
+        </div>
+        <hr>
+        
+        <div class="admin-roles">
+          <p class="mb-0">Administrator Roles</p>
+          <p class="mb-1 fs-7 text-muted">Any role with the Administrator permission is considered as a bot master.</p>
+          <div class="botmastersadmin-select-wrapper multiple">
+            <div class="select">
+              <div class="select-selected">Select an option</div>
+              <div class="select-options">
+                {% for role in guild_models(guild).roles %}
+                <div class="option" data-type="role" data-id="{{role.id}}" data-name="{{role.name}}" data-disabled="{{role.disabled}}" style="--color: {{role.color}}">{{role.name}}</div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-2 addbotmaster-roles">
+          <p class="mb-0">Additional Bot Master Roles</p>
+          <p class="mb-1 fs-7 text-muted">Roles that will also be considered as bot masters, even if they do not have the Administrator permission.</p>
+          <div class="botmastersmod-select-wrapper multiple">
+            <div class="select">
+              <div class="select-selected">Select an option</div>
+              <div class="select-options">
+                {% for role in guild_models(guild).roles %}
+                <div class="option" data-type="role" data-id="{{role.id}}" data-name="{{role.name}}" data-disabled="{{role.disabled}}" style="--color: {{role.color}}">{{role.name}}</div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     
     <section class="section">
       <div class="feature_card">
@@ -108,6 +148,25 @@
   </main>
 
   <script>
+    console.log('{{data["admin_roles"] | tojson}}')
+
+    new Select('.botmastersadmin-select-wrapper.multiple', {
+      placeholder: "Select a channel",
+      type: 'role',
+      multiple: true,
+      maxItems: 100,
+      removeBtn: true,
+      options: JSON.parse('{{data["admin_roles"] | tojson}}')
+    });
+    new Select('.botmastersmod-select-wrapper.multiple', {
+      placeholder: "Select a channel",
+      type: 'role',
+      multiple: true,
+      maxItems: 100,
+      removeBtn: true,
+      options: JSON.parse('{{data["bot_masters"] | tojson}}')
+    });
+
     new Select('.language-wrapper.single', {
       placeholder: "Select a channel",
       type: 'flag',
@@ -144,6 +203,23 @@
     }
     
     var save_data = {}
+
+    // Admin Roles
+    const botMasterAdminSelectWrapper = document.querySelector('.botmastersadmin-select-wrapper.multiple');
+    botMasterAdminSelectWrapper.addEventListener('select:update', function (event) {
+      const selectedOptions = event.detail.selectedOptions;
+      console.log(selectedOptions)
+      
+      show_toast("settings.admin_roles", "{{data['admin_roles']}}", selectedOptions)
+    });
+
+    // Bot Masters
+    const botMasterModSelectWrapper = document.querySelector('.botmastersmod-select-wrapper.multiple');
+    botMasterModSelectWrapper.addEventListener('select:update', function (event) {
+      const selectedOptions = event.detail.selectedOptions;
+      
+      show_toast("settings.bot_masters", "{{data['bot_masters']}}", selectedOptions)
+    });
     
     // Language
     const channelMessageWrapper = document.querySelector('.language-wrapper.single');

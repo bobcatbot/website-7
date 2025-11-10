@@ -39,24 +39,6 @@ premium_types = {
   }
 }
 
-imgs = {
-  'default': [
-    'blurple-rank.png',
-    'green-rank.png',
-    'yellow-rank.png',
-    'fuchsia-rank.png',
-    'red-rank.png',
-    'white-rank.png',
-    'black-rank.png',
-  ],
-  'bobcat': [
-    'bobcat.png',
-    'bobcat-blob.png',
-    'discord-scene.png',
-    'discord-games.png',
-  ],
-}
-
 flags = {
   "staff": "https://cdn3.emoji.gg/emojis/8485-discord-employee.png",
   "partner": "https://cdn3.emoji.gg/emojis/6714-discord-partner.png",

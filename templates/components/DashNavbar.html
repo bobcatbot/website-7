@@ -19,10 +19,39 @@
       </li>
       {% endif %}
 
-      <li class="nav-item pe-2">
-        <a href="/dashboard/{{guild.id}}/notifications" class="nav_link">
+      <li class="nav-item dropdown">
+        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-bell" style="display: flex;font-size: 22px;"></i>
-        </a>
+          <span class="badge bg-primary badge-number">{{ notifications(guild).unread_count }}</span>
+        </a><!-- End Notification Icon -->
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+          <li class="dropdown-header">
+            You have {{ notifications(guild).unread_count }} new notifications
+            <a href="/dashboard/{{guild.id}}/notifications"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          {% for notification in notifications(guild).unread %}
+          <li class="notification-item">
+            {% if notification.type == "info" %}
+            <i class="bi bi-info-circle text-primary"></i>
+            {% elif notification.type == "warning" %}
+            <i class="bi bi-exclamation-triangle text-warning"></i>
+            {% elif notification.type == "error" %}
+            <i class="bi bi-exclamation-circle text-danger"></i>
+            {% endif %}
+            <div>
+              {% if notification.title %}<p class="notification__info__title">{{ notification.title }}</p>{% endif %}
+              {% if notification.description %}<p class="notification__info__desc">{{ notification.description }}</p>{% endif %}
+            </div>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li> 
+          {% endfor %}
+        </ul><!-- End Notification Dropdown Items -->
       </li>
       
       <li class="nav-item dropdown pe-4">
