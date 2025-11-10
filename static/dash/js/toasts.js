@@ -21,7 +21,6 @@ function show_toast(key, oldVal, val) {
   }
   
   // update_data = save_data
-  console.log(update_data)
 }
 
 // get the save button

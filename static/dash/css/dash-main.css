@@ -17,7 +17,11 @@
 
 .text-muted {
   --bs-text-opacity: 1;
-  color: rgb(170 170 170) !important;
+  color: rgb(145, 149, 171) !important;
+}
+
+.fs-7 {
+  font-size: 14px;
 }
 
 /* badges */
@@ -221,6 +225,10 @@
   border: 2px solid var(--blurple);
   box-shadow: 0px 0px 0px 5px rgb(88 101 242 / .3);
 }
+.text-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.9;
+}
 
 .num-input {
   width: min(var(--num-input-width), 100%);
@@ -238,6 +246,10 @@
   outline: none;
   border: 2px solid var(--blurple);
   box-shadow: 0px 0px 0px 5px rgb(88 101 242 / .3);
+}
+.num-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.9;
 }
 
 /* toasts */
@@ -436,3 +448,7 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+
+
+/*  */

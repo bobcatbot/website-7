@@ -1,11 +1,12 @@
 /* Usage
 EmojiPicker({
-    trigger: 'button',
-    position: ['bottom', 'right'],
-    dir: 'directory/to/json',
-    emit(emoji) {
-      console.log(emoji);
-    }
+  trigger: 'button',
+  position: ['bottom', 'right'],
+  dir: 'directory/to/json',
+  onload: () => {},
+  emit(emoji) {
+    console.log(emoji);
+  }
 });
 */
 
@@ -28,11 +29,13 @@ const EmojiPicker = function (options) {
     if (!this.selectors.trigger) return;
 
     this.bindEvents();
+    this.variable.onload = this.options.onload || null;
   }
 
   this.variable = {
     position: null,
     dir: '',
+    onload: null
   }
 
   this.selectors = {
@@ -120,7 +123,9 @@ const EmojiPicker = function (options) {
 
           // Insert picker
           if (!document.querySelector('.emoji-picker')) {
+            // onload callback
             document.querySelector(this.options.trigger).insertAdjacentHTML('beforeend', emojiPicker);
+            if (typeof this.variable.onload === 'function') this.variable.onload();
           }
     
           const emojiPickerMain = document.querySelector('.emoji-picker');

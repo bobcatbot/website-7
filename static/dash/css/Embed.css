@@ -4,15 +4,31 @@
 
 .embed input, 
 .embed textarea {
-  color: #fff;
   width: 100%;
+  color: #fff;
   background: none;
   border: none;
 }
+
+.embed input.input,
+.embed textarea.input {
+  color: var(--text-color);
+  background: var(--input-bg);
+  padding: 6px 12px;
+  border: 2px solid var(--input-bg);
+  border-radius: 8px;
+}
+
 .embed input:focus-visible,
 .embed textarea:focus-visible {
   outline: none;
   border: none;
+}
+
+.embed input:disabled,
+.embed textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.9;
 }
 
 /* Discord Embed */

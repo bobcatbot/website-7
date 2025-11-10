@@ -41,6 +41,7 @@
 }
 
 .emoji-picker .emoji-picker-all-categories {
+  /* height: 342px; */
   height: 302px;
   overflow-x: auto;
   background-color: var(--all-categories-bg);

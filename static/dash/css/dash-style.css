@@ -237,6 +237,7 @@ body::-webkit-scrollbar-thumb {
 .modal.dark {
   --bs-modal-color: var(--text-color);
   --bs-modal-bg: var(--bs-body-color);
+  --bs-dark-bg-subtle: #1a1d20;
 }
 
 .modal.dark .btn-close {
@@ -434,7 +435,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .logo img {
-  max-height: 26px;
+  max-height: 40px;
   margin-right: 10px;
 }
 
@@ -684,6 +685,40 @@ body::-webkit-scrollbar-thumb {
   font-weight: normal;
   font-size: 12px;
   padding: 3px 6px;
+}
+
+.header-nav .notifications {
+  inset: 8px -15px auto auto !important;
+  color: #fff;
+  background: var(--color-secondary);
+}
+
+.header-nav .notifications .notification-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 10px;
+  transition: 0.3s;
+}
+
+.header-nav .notifications .notification-item i {
+  margin: 0 20px 0 10px;
+  font-size: 24px;
+}
+
+.header-nav .notifications .notification-item h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.header-nav .notifications .notification-item p {
+  font-size: 13px;
+  margin-bottom: 3px;
+  color: #919191;
+}
+
+.header-nav .notifications .notification-item:hover {
+  background-color: #f6f9ff;
 }
 
 .header-nav .profile {
@@ -973,6 +1008,16 @@ body::-webkit-scrollbar-thumb {
   margin: 0;
   font-size: 14px;
 }
+
+/* mobile */
+@media (max-width: 768px) {
+  .overview .info {
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
+    row-gap: 10px;
+  }
+}
 /*--------------------------------------------------------------
 # Dashboard
 --------------------------------------------------------------*/
@@ -1035,7 +1080,10 @@ body::-webkit-scrollbar-thumb {
 --------------------------------------------------------------*/
 .nav-tabs-bordered {
   border-bottom: 1px solid #71717a;
-  margin: 0 0;
+}
+.nav-tabs-bordered.margin {
+  border-bottom: 1px solid #71717a;
+  margin: 0 25px 0 25px;
 }
 
 .nav-tabs-bordered .nav-link {

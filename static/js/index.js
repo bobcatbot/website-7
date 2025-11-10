@@ -28,7 +28,6 @@
     var modal = new bootstrap.Modal(document.getElementById('changelogModal'))
   
     document.addEventListener('DOMContentLoaded', function () {
-  		
       var request = new XMLHttpRequest()
       request.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -56,19 +55,19 @@
             document.getElementById('bugs-list').appendChild(update)
           })
 
-          if (changeLogDate !== data.short_date) {
-            localStorage.setItem('lastChangeLogDate', data.short_date)
-            localStorage.setItem('showChangeLog', true)
-            modal.show()
-          }
+          // if (changeLogDate !== data.short_date) {
+          //   localStorage.setItem('lastChangeLogDate', data.short_date)
+          //   localStorage.setItem('showChangeLog', true)
+          //   modal.show()
+          // }
       
-          if (changeLogDate !== data.short_date && showChangeLog === true) {
-            localStorage.setItem('showChangeLog', false)
-            modal.show()
-          } else {
-            localStorage.setItem('showChangeLog', true)
-            modal.hide()
-          }
+          // if (changeLogDate !== data.short_date && showChangeLog === true) {
+          //   localStorage.setItem('showChangeLog', false)
+          //   modal.show()
+          // } else {
+          //   localStorage.setItem('showChangeLog', true)
+          //   modal.hide()
+          // }
         }
       }
       request.open('GET', "/static/changelog.json", true)
