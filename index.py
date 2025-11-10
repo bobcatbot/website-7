@@ -1629,7 +1629,7 @@ async def stop_premium():
 async def on_ready():
   print(f'We have logged in as {bot.user}')
 
-  bot.get_channel(1110277292124536953).send('Dashboard on Railway is online')
+  await bot.get_channel(1110277292124536953).send('Dashboard on Railway is online')
 
 def run_app():
   app.run(host='0.0.0.0', port=8000)
@@ -1639,3 +1639,4 @@ async def keep_alive():
 if __name__ == "__main__":
   bot.loop.create_task(keep_alive())
   bot.run(BOT_TOKEN)
+
