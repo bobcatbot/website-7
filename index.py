@@ -17,7 +17,7 @@ app.config["STRIPE_PUBLIC_KEY"] = stripe_config["PUBLIC_KEY"]
 app.config["STRIPE_SECRET_KEY"] = stripe_config["SECRET_KEY"]
 app.config["STRIPE_WEBHOOK_KEY"] = stripe_config["WH_KEY"]
 
-bot = v.client
+bot = discord.Client(intents=discord.Intents.all())
 client = APIClient(BOT_TOKEN, client_secret=CLIENT_SECRET)
 
 stripe.api_key = app.config["STRIPE_SECRET_KEY"]
@@ -1624,11 +1624,18 @@ async def stop_premium():
         update_config(guild.id, 'premium.active', False)
         print(f"Premium expired for {guild.name} ({guild.id})")
 
+
+@bot.event
+async def on_ready():
+  print(f'We have logged in as {bot.user}')
+
+  bot.get_channel(1110277292124536953).send('Dashboard on Railway is online')
+
 def run_app():
-  global app_started
-  app_started = True  # Update the flag when the app starts
-  app.run(host='localhost', port=8000, use_reloader=False)
-
-def run_dashboard():
-
+  app.run(host='0.0.0.0', port=8000)
+async def keep_alive():
   Thread(target=run_app).start()
+
+if __name__ == "__main__":
+  bot.loop.create_task(keep_alive())
+  bot.run(BOT_TOKEN)
